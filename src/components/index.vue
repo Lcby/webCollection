@@ -65,6 +65,7 @@
             this.$refs['ruleForm'].resetFields();
           }
           this.form = {};
+          console.log(Auth.getUserInfo());
           this.dialogFormVisible = data;
         },
         changePassword(){

@@ -2,6 +2,7 @@
   <el-container style="height:100%">
     <el-aside width="200px" style="height:100%">
       <el-menu
+      v-if="type===2"
         :router = 'true'
         style="height:100%"
         default-active="/management"
@@ -36,6 +37,27 @@
           <span slot="title">意见反馈</span>
         </el-menu-item>
       </el-menu>
+  <!-- 用户栏***************************************** -->
+      <el-menu
+      v-else
+        :router = 'true'
+        style="height:100%"
+        default-active="/user"
+        @open="handleOpen"
+        @close="handleClose">
+        <el-menu-item index="/user">
+          <i class="el-icon-school"></i>
+          <span slot="title">个人信息</span>
+        </el-menu-item>
+        <el-menu-item index="/user/personForm">
+          <i class="el-icon-office-building"></i>
+          <span slot="title">表单管理</span>
+        </el-menu-item>
+        <el-menu-item index="/user/feedback">
+          <i class="el-icon-edit-outline"></i>
+          <span slot="title">意见反馈</span>
+        </el-menu-item>
+      </el-menu>      
     </el-aside>
     <el-main>
       <router-view />
@@ -44,9 +66,18 @@
 </template>
 
 <script>
+    import {Auth} from "../../store/user/auth";
     export default {
       name: "index",
+      data(){
+        return{
+          type:Auth.getUserInfo().type
+        }
+      },
       methods: {
+        created () {
+          console.log(this.type);
+        },
         handleOpen(key, keyPath) {
           console.log(key, keyPath);
         },

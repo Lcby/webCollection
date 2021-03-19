@@ -26,6 +26,28 @@ const router =  new Router({
       component: ()=>import('../view/register/index'),
     },
     {
+      path: '/user',
+      name: '/user',
+      component: ()=>import('../components/index'),
+      children:[
+        {
+          path:'/',
+          name:'userInfo',
+          component:()=>import('../view/users/userInfo/index.vue')
+        },        
+        {
+          path:'/user/feedback',
+          name:'feedback',
+          component:()=>import('../view/users/feedback/index.vue')
+        },
+        {
+          path:'/user/personForm',
+          name:'personForm',
+          component: ()=>import('../view/users/userForm/index.vue'),
+        },
+      ]
+    },
+    {
       path: '/management',
       name: 'management',
       component: ()=>import('../components/index'),
@@ -82,13 +104,13 @@ const router =  new Router({
 
 export default router
 
-router.beforeEach((to,from,next) => {
-  if (to.name=="login"||to.name=="register"||Auth.getUserInfo()){
-    next();
-  }else{
-    next({
-      path:'/'
-    })
-  }
-  next();
-});
+// router.beforeEach((to,from,next) => {
+//   if (to.name=="login"||to.name=="register"||Auth.getUserInfo()){
+//     next();
+//   }else{
+//     next({
+//       path:'/'
+//     })
+//   }
+//   next();
+// });
