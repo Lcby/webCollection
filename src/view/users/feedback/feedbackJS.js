@@ -1,8 +1,8 @@
 import {server} from "../../../tools/servers";
 
-export class userInfoJs{
-  static changeNickname(params){
-    return server.connection('POST','/users/changeNickname', params);
+export class feedbackJS{
+  static addNewFeedback(params){
+    return server.connection('POST','/userFeedback/addNewFeedback', params);
   }
 
   static selectAll(params){

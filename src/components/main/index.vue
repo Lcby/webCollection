@@ -2,7 +2,7 @@
   <el-container style="height:100%">
     <el-aside width="200px" style="height:100%">
       <el-menu
-      v-if="type===2"
+      v-if="type===1"
         :router = 'true'
         style="height:100%"
         default-active="/management"
@@ -76,7 +76,7 @@
       },
       methods: {
         created () {
-          console.log(this.type);
+         
         },
         handleOpen(key, keyPath) {
           console.log(key, keyPath);

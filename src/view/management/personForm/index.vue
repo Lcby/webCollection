@@ -32,7 +32,7 @@
     <div class="all-card">
       <el-card class="box-card" v-for="s in this.tableData" :key="s.id">
         <div>
-          <router-link :to="{path:'/management/personForm/formDetails',query:{projInfo:{projectName:s.formName,username:adminName,id:s.id}}}">
+          <router-link :to='{ path: "/management/personForm/formsList", query:{formId:s.formId,formName:s.formName,id:s.id}}'>
             <div>
               {{s.formName}}
             </div>
@@ -53,7 +53,7 @@
                     <i class="el-icon-setting" />
                   </span>
                 <el-dropdown-menu slot="dropdown">
-<!--                  <el-dropdown-item>查看</el-dropdown-item>-->
+                  <el-dropdown-item @click.native="toFormList(s.formName,s.id)">查看</el-dropdown-item>
                   <el-dropdown-item v-if="s.status==2" @click.native="updateStatus(s.id,1)">发布</el-dropdown-item>
                   <el-dropdown-item v-else @click.native="updateStatus(s.id,2)">停止</el-dropdown-item>
 <!--                  <el-dropdown-item>删除</el-dropdown-item>-->
@@ -82,7 +82,6 @@
   import {personFormJs} from "./personFormJs";
   import {Auth} from "../../../store/user/auth";
   import {Msg} from "../../../tools/message";
-  import {academyJs} from "../academy/academyJs";
 
   export default {
     name: "index",
@@ -125,8 +124,10 @@
       openAdd(){
         this.$router.push("/management/personForm/addForms")
       },
+      toFormList(formName,id){
+        this.$router.push({path:'/management/personForm/formDetails',query:{projInfo:{projectName:formName,username:this.adminName,id:id}}})
+      },
       updateStatus(id,type){
-        console.log("xxx")
         this.$confirm('该操作将改变表单状态, 是否继续?', '提示', {
           confirmButtonText: '确定',
           cancelButtonText: '取消',

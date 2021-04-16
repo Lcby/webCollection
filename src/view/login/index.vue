@@ -20,7 +20,7 @@
           <div class="icon-wrap">
             <el-radio-group v-model="loginForm.type">
               <el-radio label="1" value="1">管理员</el-radio>
-              <el-radio label="2" value="2" disabled>用户</el-radio>
+              <el-radio label="2" value="2">用户</el-radio>
             </el-radio-group>
           </div>
         </el-form-item>
@@ -77,7 +77,12 @@
               };
               this.$store.dispatch('accountLoginSubmit', data).then((res) => {
                 if (res.data.id!==undefined&&res.data.id!==null&&res.data.id!==''){
-                  this.$router.push("/management")
+                  console.log(res.data);
+                  if(res.data.type==1){
+                    this.$router.push("/management")
+                  }else{
+                    this.$router.push("/user")
+                  }
                 }
               })
             } else {

@@ -45,6 +45,11 @@ const router =  new Router({
           name:'personForm',
           component: ()=>import('../view/users/userForm/index.vue'),
         },
+        {
+          path:'/user/personForm/formDetails',
+          name:'formDetails',
+          component: ()=>import('../view/users/userForm/formDetails.vue'),
+        }
       ]
     },
     {
@@ -96,6 +101,16 @@ const router =  new Router({
           path:'/management/personForm/formDetails',
           name:'formDetails',
           component: ()=>import('../view/management/personForm/FormDetails'),
+        },
+        {
+          path:'/management/personForm/formsList',
+          name:'formsList',
+          component: ()=>import('../view/management/personForm/formsList'),
+        },
+        {
+          path:'/management/personForm/userFormAnswers',
+          name:'userFormAnswerss',
+          component: ()=>import('../view/management/personForm/userFormAnswers'),
         }
       ]
     }

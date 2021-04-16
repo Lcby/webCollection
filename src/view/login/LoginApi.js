@@ -6,4 +6,8 @@ export class LoginApi{
     return server.connection('GET','/login/loginManagement', params);
   }
 
+  static loginUser(params){
+    return server.connection('GET','/login/loginManagement', params);
+  }
+
 }

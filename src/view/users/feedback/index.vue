@@ -12,11 +12,12 @@
         你的意见是我们进步最大的动力！！！
       </div>
       <div>
-        <el-form :model="ruleForm"  ref="ruleForm" label-width="100px" class="ruleForm">
-          <el-form-item label="意见类型" prop="region">
-            <el-select v-model="ruleForm.region" placeholder="请选择意见类型">
-              <el-option label="区域一" value="shanghai"></el-option>
-              <el-option label="区域二" value="beijing"></el-option>
+        <el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="100px" class="ruleForm">
+          <el-form-item label="意见类型" prop="type">
+            <el-select v-model="ruleForm.type" placeholder="请选择意见类型">
+              <el-option label="运营建议" value="运营建议"></el-option>
+              <el-option label="问卷改善" value="问卷改善"></el-option>
+              <el-option label="其他" value="其他"></el-option>
             </el-select>
           </el-form-item>
         
@@ -44,14 +45,40 @@
 
 <script>
 import Sidentify from './sidentify'
+import {feedbackJS} from "./feedbackJS";
+import {Msg} from "../../../tools/message";
+import { Auth } from '../../../store/user/auth';
 export default {
-  data () {
+    data () {
+      var validateSidentify = (rule, value, callback) => {
+        if (value === ''||value === undefined) {
+          callback(new Error('请输入验证码'));
+        } else {
+          console.log(value);
+          if (value.toLowerCase()!==this.identifyCode.toLowerCase()) {
+            this.refreshCode();
+            callback(new Error('验证码错误，请重新输入'));
+          }
+          callback();
+        }
+      };
     return {
       ruleForm:{},
       identifyCode: "",
       identifyCodes: ['0','1','2','3','4','5','6','7','8','9','a','b','c','d','a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w','x','y','z',
             'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z'],
-    };
+        rules: {
+          type: [
+          { required: true, message: '请选择意见类型', trigger: 'change' },
+          ],
+          desc: [
+          { required: true, message: '请输入内容', trigger: 'change' }
+          ],
+          sidentify: [
+            { validator: validateSidentify, trigger: 'blur' }
+          ]
+        }
+      };
   },
   components: {
       'v-sidentify':Sidentify 
@@ -60,6 +87,31 @@ export default {
    this.refreshCode()
   },
   methods: {
+      submitForm(formName) {
+        
+        this.$refs[formName].validate((valid) => {
+          if (valid) {
+            console.log(this.ruleForm);
+            feedbackJS.addNewFeedback({
+              userId:Auth.getUserInfo().id,
+              content:this.ruleForm.desc,
+              type:this.ruleForm.type
+            }).then(res=>{
+              Msg.success("反馈成功");
+              this.ruleForm = {};
+              if (this.$refs['ruleForm']!==undefined){
+                this.$refs['ruleForm'].resetFields();
+              }
+            })
+          } else {
+          console.log('error submit!!');
+          return false;
+          }
+        });
+      },
+      resetForm(formName) {
+        this.$refs[formName].resetFields();
+      },  
       randomNum(min, max) {
         max = max + 1
         return Math.floor(Math.random() * (max - min) + min);
@@ -76,20 +128,7 @@ export default {
           this.identifyCode += this.identifyCodes[this.randomNum(0, this.identifyCodes.length-1)]
         }
       },
-      submitForm(formName) {
-        console.log(this.ruleForm.sidentify.toLowerCase()==this.identifyCode.toLowerCase());
-        this.$refs[formName].validate((valid) => {
-          if (valid) {
-            alert('submit!');
-          } else {
-            console.log('error submit!!');
-            return false;
-          }
-        });
-      },
-      resetForm(formName) {
-        this.$refs[formName].resetFields();
-      }    
+  
   }
 }
 

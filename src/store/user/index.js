@@ -65,14 +65,11 @@ export default {
         LoginApi.loginManagement({account: params.account, password: params.password,type:params.type}).then((res) => {
           if(res.data.data.id!==''&&res.data.data.id!==null&&res.data.data.id!==undefined) {
             commit('ACCOUNT_AUTH_STATUS_CHANGED', {...res, params});
-            // commit('handleRemember', {...res, params});
             var {isLogin,token} = store.getters;
             resolve(res.data)
           }
           else {
             commit('ACCOUNT_LOGOUT_FAILURE');
-            // Msg.error(res.data.message);
-            // reject(res.data);
             resolve(res.data)
           }
         }).catch(err => {
@@ -92,8 +89,6 @@ export default {
           }
           else {
             commit('ACCOUNT_LOGOUT_FAILURE');
-            // Msg.error(res.data.message);
-            // reject(res.data);
             resolve(res.data)
           }
         }).catch(err => {

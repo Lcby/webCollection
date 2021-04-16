@@ -16,7 +16,7 @@
         </el-form-item>
         <el-form-item label="学院">
           <el-select v-model="pageInformations.academyId" placeholder="学院" clearable >
-            <el-option v-for="(item,index) in this.searchAcademy" :key=item.id :label=item.academyName :value=item.id ></el-option>
+            <el-option v-for="(item) in this.searchAcademy" :key=item.id :label=item.academyName :value=item.id ></el-option>
           </el-select>
         </el-form-item>
         <el-form-item>
