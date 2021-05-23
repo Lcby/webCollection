@@ -14,7 +14,7 @@
             </div>
             <div class="update-info">
                  <el-avatar :size="80" :src="userInfo.avator" />
-                 <div class="update-button">上传</div>
+                 <!-- <div class="update-button">上传</div> -->
             </div>
         </div>
         <div class="user-detail">

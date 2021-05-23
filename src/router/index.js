@@ -36,9 +36,14 @@ const router =  new Router({
           component:()=>import('../view/users/userInfo/index.vue')
         },        
         {
-          path:'/user/feedback',
+          path:'/user/newFeedback',
           name:'feedback',
           component:()=>import('../view/users/feedback/index.vue')
+        },
+        {
+          path:'/user/feedback',
+          name:'feedback',
+          component:()=>import('../view/users/feedback/feedbackList.vue')
         },
         {
           path:'/user/personForm',
@@ -49,6 +54,11 @@ const router =  new Router({
           path:'/user/personForm/formDetails',
           name:'formDetails',
           component: ()=>import('../view/users/userForm/formDetails.vue'),
+        },
+        {
+          path:'/user/personForm/userFormAnswers',
+          name:'userFormAnswerss',
+          component: ()=>import('../view/users/userForm/userFormAnswers.vue'),
         }
       ]
     },
@@ -119,13 +129,13 @@ const router =  new Router({
 
 export default router
 
-// router.beforeEach((to,from,next) => {
-//   if (to.name=="login"||to.name=="register"||Auth.getUserInfo()){
-//     next();
-//   }else{
-//     next({
-//       path:'/'
-//     })
-//   }
-//   next();
-// });
+router.beforeEach((to,from,next) => {
+  if (to.name=="login"||to.name=="register"||Auth.getUserInfo()){
+    next();
+  }else{
+    next({
+      path:'/'
+    })
+  }
+  next();
+});

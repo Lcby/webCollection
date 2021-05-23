@@ -62,7 +62,8 @@ export default {
     /** 登录 */
     accountLoginSubmit({commit}, params) {
       return new Promise((resolve, reject) => {
-        LoginApi.loginManagement({account: params.account, password: params.password,type:params.type}).then((res) => {
+        LoginApi.loginManagement({account: params.account, password: params.password,type:params.type})
+        .then((res) => {
           if(res.data.data.id!==''&&res.data.data.id!==null&&res.data.data.id!==undefined) {
             commit('ACCOUNT_AUTH_STATUS_CHANGED', {...res, params});
             var {isLogin,token} = store.getters;

@@ -36,9 +36,11 @@
               {{s.title}}
             </div>
           </router-link>
-          <div v-else>
-            {{s.title}}
-          </div>
+          <router-link :to="{path:'/user/personForm/userFormAnswers',query:{projInfo:{projectName:s.title,username:s.nickname,id:s.formId}}}" v-else>
+            <div>
+              {{s.title}}
+            </div>
+          </router-link>          
           <span style="font-size: 12px;color: red" v-if="s.isWrite==2">(未填写)</span>
           <span style="font-size: 12px;color: blue" v-else>(已填写)</span>
           <div style="font-size: 14px;color: #ff8a1b;margin: 5px 0" v-if="s.level==2">班级</div>

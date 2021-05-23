@@ -8,4 +8,12 @@ export class feedbackJS{
   static selectAll(params){
     return server.connection('GET','/user/selectAllUser', params);
   }
+
+  static selectAlls(params){
+    return server.connection('GET','/userFeedback/selectAllFeedback', params);
+  }
+
+  static deleteFeedbakc(params){
+    return server.connection('GET','/feedback/deleteFeedback', params);
+  }
 }

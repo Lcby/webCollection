@@ -20,15 +20,15 @@
                   <span>{{index+1}}.</span>
                   <input class="questTitle" type="text" placeholder="请输入题目名称" v-model="questInfo[index].questTitle">
                 </div>
-                <div class="answer">
-                  <div v-for="(i,k) in item.answers" :key = k class="answer-container">
-                    <input type="radio" disabled v-if="questInfo[index].type == 'radio'">
-                    <input type="checkbox" disabled v-if="questInfo[index].type == 'checkbox'">
-                    <input class="answers" type="text" v-model="questInfo[index].answers[k]">
-                    <i class="el-icon-delete delete-item" @click="deleteOptions(index,k)"></i>
-                  </div>
-                </div>
-                <textarea name="textAns" id="textQuest" cols="20" rows="5" v-if="questInfo[index].type == 'text'"></textarea>
+<div class="answer">
+  <div v-for="(i,k) in item.answers" :key = k class="answer-container">
+    <input type="radio" disabled v-if="questInfo[index].type == 'radio'">
+    <input type="checkbox" disabled v-if="questInfo[index].type == 'checkbox'">
+    <input class="answers" type="text" v-model="questInfo[index].answers[k]">
+    <i class="el-icon-delete delete-item" @click="deleteOptions(index,k)"></i>
+  </div>
+</div>
+<textarea name="textAns" id="textQuest" cols="20" rows="5" v-if="questInfo[index].type == 'text'" disabled></textarea>
                 <el-row class="questBtns">
                   <el-button v-if="questInfo[index].type != 'text' " type="primary" class="delBtn" @click="addOptions(index)" icon="el-icon-plus" circle></el-button>
                   <el-button type="primary" class="delBtn" @click="removeQuest(index)" icon="el-icon-delete" circle></el-button>
@@ -64,7 +64,7 @@
         </el-form-item>
         <el-form-item label="班级" :label-width="formLabelWidth" v-if="this.form.level == 2">
           <el-select v-model="form.classId" placeholder="请选择班级" filterable clearable style="width: 100%">
-            <el-option v-for="(item,index) in this.selectAllClasses" :key=item.id :label=item.className :value=item.id ></el-option>
+            <el-option v-for="(item) in this.selectAllClasses" :key=item.id :label=item.className :value=item.id ></el-option>
           </el-select>
         </el-form-item>
       </el-form>

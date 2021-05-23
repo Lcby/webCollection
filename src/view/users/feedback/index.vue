@@ -2,9 +2,9 @@
 <template>
   <div>
     <div class="breadcrumbs" >
-        <el-breadcrumb separator="">
+        <el-breadcrumb separator="/">
             <el-breadcrumb-item :to="{ path: '/user/feedback' }">意见反馈</el-breadcrumb-item>
-            <el-breadcrumb-item ></el-breadcrumb-item>
+            <el-breadcrumb-item >新反馈</el-breadcrumb-item>
         </el-breadcrumb>
     </div>
     <div class="feedbacks">
@@ -99,6 +99,7 @@ export default {
             }).then(res=>{
               Msg.success("反馈成功");
               this.ruleForm = {};
+              this.$router.push({path:'/user/feedback',query:{}});
               if (this.$refs['ruleForm']!==undefined){
                 this.$refs['ruleForm'].resetFields();
               }

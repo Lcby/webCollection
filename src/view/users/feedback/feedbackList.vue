@@ -2,7 +2,7 @@
   <div>
     <div class="breadcrumbs" >
       <el-breadcrumb separator="">
-        <el-breadcrumb-item :to="{ path: '/management/feedback' }">意见反馈</el-breadcrumb-item>
+        <el-breadcrumb-item :to="{ path: '/user/feedback' }">意见反馈</el-breadcrumb-item>
         <el-breadcrumb-item ></el-breadcrumb-item>
       </el-breadcrumb>
     </div>
@@ -13,20 +13,22 @@
         </el-form-item>
         <el-form-item label="类型">
           <el-select v-model="pageInformations.type" placeholder="请选择" clearable>
-            <el-option label="是" value=1></el-option>
-            <el-option label="否" value=2></el-option>
+            <el-option label="运营建议" value="运营建议"></el-option>
+            <el-option label="问卷改善" value="问卷改善"></el-option>
+            <el-option label="其他" value="其他"></el-option>
           </el-select>
         </el-form-item>
         <el-form-item label="是否回复">
           <el-select v-model="pageInformations.isReply" placeholder="请选择" clearable>
-            <el-option label="是" value=1></el-option>
-            <el-option label="否" value=2></el-option>
+            <el-option label="是" value=2></el-option>
+            <el-option label="否" value=1></el-option>
           </el-select>
         </el-form-item>
         <el-form-item>
           <el-button type="primary" @click="onSubmit">查询</el-button>
         </el-form-item>
       </el-form>
+      <el-button type="primary" @click="toFeedback">新的反馈</el-button>
     </div>
     <div class="tables">
       <el-table
@@ -76,10 +78,9 @@
           align="center"
           label="操作">
           <template slot-scope="scope">
-            <el-button type="text" size="small" @click="openReplyForm(scope.row)">回复</el-button>
             <el-button type="text" size="small" style="color:red" @click="deleteFeedback(scope.row.id)">删除</el-button>
           </template>
-        </el-table-column>
+        </el-table-column>        
       </el-table>
     </div>
     <div class="pagination">
@@ -108,7 +109,7 @@
 </template>
 
 <script>
-  import {feedbackJs} from "./feedbackJs";
+  import {feedbackJS} from "./feedbackJS";
   import {Auth} from "../../../store/user/auth";
   import {Msg} from "../../../tools/message";
 
@@ -132,6 +133,7 @@
           content:'',
           type:'',
           isReply:'',
+          userId:Auth.getUserInfo().id
         },
         total:0,
         replyFormVisible:false,
@@ -158,7 +160,7 @@
         if (this.pageInformations.isReply == ''){
           this.pageInformations.isReply = 0
         }
-        feedbackJs.selectAll(this.pageInformations).then(res=>{
+        feedbackJS.selectAlls(this.pageInformations).then(res=>{
           this.total = res.data.data.total;
           this.tableData = res.data.data.list;
           if (this.pageInformations.isReply == 0){
@@ -173,19 +175,8 @@
         }
         this.replyForm.id = row.id;
       },
-      submitForm(formName) {
-        this.$refs[formName].validate((valid) => {
-          if (valid) {
-            feedbackJs.replyFeedback({id:this.replyForm.id,answer:this.replyForm.answer,adminId:Auth.getUserInfo().id}).then(res=>{
-              Msg.success(res.data.message);
-              this.replyFormVisible = false
-              this.selectAllFeedback();
-            })
-          } else {
-            console.log('error submit!!');
-            return false;
-          }
-        });
+      toFeedback(){
+          this.$router.push({path:'/user/newFeedback',query:{}});
       },
       deleteFeedback(id){
         this.$confirm('此操作将永久删除该反馈, 是否继续?', '提示', {
@@ -193,12 +184,12 @@
           cancelButtonText: '取消',
           type: 'warning'
         }).then(() => {
-          feedbackJs.deleteFeedbakc({id:id}).then(res=>{
+          feedbackJS.deleteFeedbakc({id:id}).then(res=>{
             this.selectAllFeedback();
             Msg.success(res.data.message)
           })
         });
-      }      
+      }        
     }
   }
 </script>

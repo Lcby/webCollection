@@ -8,4 +8,8 @@ export class feedbackJs{
   static replyFeedback(params){
     return server.connection('POST','/feedback/replyFeedback', params);
   }
+
+  static deleteFeedbakc(params){
+    return server.connection('GET','/feedback/deleteFeedback', params);
+  }
 }

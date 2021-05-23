@@ -21,4 +21,8 @@ export class personFormJs{
   static updateStatus(params){
     return server.connection('POST','/personForm/updatePersonFormStatus', params);
   }
+      //表单答案
+      static selectFormAnswer(params){
+        return server.connection('GET','/usersForm/selectFormAnswer', params);
+      }
 }
